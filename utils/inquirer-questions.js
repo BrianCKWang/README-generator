@@ -9,7 +9,7 @@
 // -test instructions
 // github username
 // email address
-const projectQuestions = [
+let projectQuestions = [
   {
     type: 'input',
     name: 'title',
@@ -38,19 +38,6 @@ const projectQuestions = [
   },
   {
     type: 'input',
-    name: 'installation',
-    message: 'Provide an instruction of installation for the project (Required)',
-    validate: instructionInput => {
-      if (instructionInput) {
-        return true;
-      } else {
-        console.log('Please enter instruction of intallation for the project!');
-        return false;
-      }
-    }
-  },
-  {
-    type: 'input',
     name: 'usage',
     message: 'Provide usage information for the project (Required)',
     validate: instructionInput => {
@@ -64,7 +51,7 @@ const projectQuestions = [
   },
   {
     type: 'input',
-    name: 'usage',
+    name: 'contribution',
     message: 'Provide contribution guidelines for the project (Required)',
     validate: instructionInput => {
       if (instructionInput) {
@@ -77,7 +64,7 @@ const projectQuestions = [
   },
   {
     type: 'input',
-    name: 'usage',
+    name: 'test',
     message: 'Provide test instructions for the project (Required)',
     validate: instructionInput => {
       if (instructionInput) {
@@ -90,6 +77,58 @@ const projectQuestions = [
   }
 ];
 
+const installationQuestion_first = [
+  {
+    type: 'input',
+    name: 'installation',
+    message: 'Provide an instruction of installation for the project (Required)',
+    validate: instructionInput => {
+      if (instructionInput) {
+        return true;
+      } else {
+        console.log('Please enter instruction of intallation for the project!');
+        return false;
+      }
+    }
+  },
+  {
+    type: 'confirm',
+    name: 'hasNext',
+    message: 'Is there a next step?',
+    default: false
+  },
+];
+
+const installationQuestion_next = [
+  {
+    type: 'input',
+    name: 'installation',
+    message: 'Provide another instruction of installation (Required)',
+    validate: instructionInput => {
+      if (instructionInput) {
+        return true;
+      } else {
+        console.log('Please enter an instruction!');
+        return false;
+      }
+    }
+  },
+  {
+    type: 'confirm',
+    name: 'hasNext',
+    message: 'Is there a next step?',
+    default: false
+  },
+];
+
+const installationQuestion_confirm = [
+  {
+    type: 'confirm',
+    name: 'confirmStep',
+    message: 'Please confirm the installation instruction steps. Okay to proceed?',
+    default: true
+  },
+];
 
 const userQuestions = [
   {
@@ -138,4 +177,10 @@ const userQuestions = [
   }
 ];
 
-module.exports = {projectQuestions, userQuestions};
+module.exports = {
+  projectQuestions, 
+  userQuestions, 
+  installationQuestion_first,
+  installationQuestion_next,
+  installationQuestion_confirm
+};

@@ -1,36 +1,93 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
+const questions = require('./utils/inquirer-questions.js');
 const writeToFile = require('./utils/file-handlers.js');
-const {projectQuestions, userQuestions} = require('./utils/inquirer-questions.js');
 const generateMarkdown = require('./utils/generateMarkdown.js');
 
 // TODO: Create a function to write README file
 // writeToFile(fileName, data);
 
+const promptProjectDetails = () => {
+  const projectQuestions = questions.projectQuestions;
+  return inquirer.prompt(projectQuestions);
+};
+
 const promptUser = projectData => {
+  const userQuestions = questions.userQuestions;
+
   return inquirer.prompt(userQuestions)
   .then(userData => {
     return {
       ...userData,
       project: projectData
+    };
+  })
+};
+
+const promptInstallation = portfolioData => {
+
+  promptInstallationSteps()
+  .then(steps => {
+    portfolioData.installationSteps = steps;
+  })
+  .then(() => {
+    console.log("Installation instructions:");
+    for(let i = 0, currentStep = 1; i < portfolioData.installationSteps.length; i++, currentStep++){
+      console.log("Step " + currentStep + ": " + portfolioData.installationSteps[i].installation);
+    }
+  })
+  .then(promptInstallationConfirmation)
+  .then(confirmation =>{
+    if(confirmation.confirmStep){
+      console.log("** Installation instruction confirmed!");
+      return portfolioData;
+    }
+    else{
+      console.log("** Installation instruction cleared. Please enter installation instruction.");
+      portfolioData.installationSteps = [];
+      promptInstallation(portfolioData);
     }
   })
 };
 
-const promptProjectDetails = () => {
-  return inquirer.prompt(projectQuestions)
+const promptInstallationSteps = steps => {
+  const installQuestion = {
+    firstQ: questions.installationQuestion_first,
+    nextQ: questions.installationQuestion_next,
+  }
+
+  if(steps == null){
+    steps = [];
+  }
+
+  let currentStep = steps.length + 1;
+  console.log("Step " + currentStep + ": ");
+
+  return inquirer.prompt(currentStep == 1 ? installQuestion.firstQ : installQuestion.nextQ)
+  .then(step => {
+    steps.push(step);
+    // console.log(step);
+    return step.hasNext ? promptInstallationSteps(steps) : steps;
+  })
 };
+
+const promptInstallationConfirmation = () => {
+  return inquirer.prompt(questions.installationQuestion_confirm);
+};
+
 
 // TODO: Create a function to initialize app
 function init() {
   promptProjectDetails()
-  .then(promptUser)
-  .then(portfolioData => {
-    return generateMarkdown(portfolioData);
-  })
-  .then(markdownData => {
-    return writeToFile(markdownData);
-  })
+  // .then(promptUser)
+  .then(promptInstallation)
+  // .then(portfolioData => {
+  //   // console.log(portfolioData);
+  //   // return generateMarkdown(portfolioData);
+  // })
+  // .then(markdownData => {
+  //   return writeToFile(markdownData);
+  // })
   .catch(err => {
     console.log(err);
   });
