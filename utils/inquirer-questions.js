@@ -39,6 +39,11 @@ let projectQuestions = [
   },
   {
     type: 'input',
+    name: 'screenshotLink',
+    message: 'Enter the link to the screenshot. Leave input empty to omit. (option)',
+  },
+  {
+    type: 'input',
     name: 'usage',
     message: 'Provide usage information for the project (Required)',
     validate: instructionInput => {
@@ -52,7 +57,7 @@ let projectQuestions = [
   },
   {
     type: 'input',
-    name: 'contribution',
+    name: 'contributionGuideline',
     message: 'Provide contribution guidelines for the project (Required)',
     validate: instructionInput => {
       if (instructionInput) {

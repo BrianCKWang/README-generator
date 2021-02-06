@@ -8,20 +8,23 @@ const generateMarkdown = require('./utils/generateMarkdown.js');
 // writeToFile(fileName, data);
 
 const promptProjectDetails = () => {
-  const projectQuestions = questions.projectQuestions;
-  return inquirer.prompt(projectQuestions);
+  return inquirer.prompt(questions.projectQuestions)
+          .catch(err => {
+            console.log(err);
+          });
 };
 
 const promptUser = projectData => {
-  const userQuestions = questions.userQuestions;
-
-  return inquirer.prompt(userQuestions)
-  .then(userData => {
-    return {
-      ...userData,
-      project: projectData
-    };
-  })
+  return inquirer.prompt(questions.userQuestions)
+          .then(userData => {
+            return {
+              ...userData,
+              project: projectData
+            };
+          })
+          .catch(err => {
+            console.log(err);
+          });
 };
 
 const promptInstallation = portfolioData => {
@@ -47,10 +50,13 @@ const promptInstallation = portfolioData => {
               promptInstallation(portfolioData);
             }
           })
+          .catch(err => {
+            console.log(err);
+          });
 };
 
 const promptInstallationSteps = steps => {
-  const installQuestion = {
+  const install = {
     firstQ: questions.installationQuestion_first,
     nextQ: questions.installationQuestion_next,
   }
@@ -62,11 +68,14 @@ const promptInstallationSteps = steps => {
   let currentStep = steps.length + 1;
   console.log("Step " + currentStep + ": ");
 
-  return inquirer.prompt(currentStep == 1 ? installQuestion.firstQ : installQuestion.nextQ)
+  return inquirer.prompt(currentStep == 1 ? install.firstQ : install.nextQ)
           .then(step => {
             steps.push(step);
             return step.hasNext ? promptInstallationSteps(steps) : steps;
-          });
+          })
+          .catch(err => {
+            console.log(err);
+          });;
 };
 
 const promptLicense = portfolioData => {
@@ -86,7 +95,10 @@ const promptLicense = portfolioData => {
               console.log("** License cleared. Please choose license.");
               promptLicense(portfolioData);
             }
-          });
+          })
+          .catch(err => {
+            console.log(err);
+          });;
 };
 
 // TODO: Create a function to initialize app
