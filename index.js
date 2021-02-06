@@ -25,29 +25,28 @@ const promptUser = projectData => {
 };
 
 const promptInstallation = portfolioData => {
-
-  promptInstallationSteps()
-  .then(steps => {
-    portfolioData.installationSteps = steps;
-  })
-  .then(() => {
-    console.log("Installation instructions:");
-    for(let i = 0, currentStep = 1; i < portfolioData.installationSteps.length; i++, currentStep++){
-      console.log("Step " + currentStep + ": " + portfolioData.installationSteps[i].installation);
-    }
-  })
-  .then(promptInstallationConfirmation)
-  .then(confirmation =>{
-    if(confirmation.confirmStep){
-      console.log("** Installation instruction confirmed!");
-      return portfolioData;
-    }
-    else{
-      console.log("** Installation instruction cleared. Please enter installation instruction.");
-      portfolioData.installationSteps = [];
-      promptInstallation(portfolioData);
-    }
-  })
+  return promptInstallationSteps()
+          .then(steps=> {
+            portfolioData.installationSteps = steps;
+            console.log("Installation instructions:");
+            for(let i = 0, currentStep = 1; i < portfolioData.installationSteps.length; i++, currentStep++){
+              console.log("Step " + currentStep + ": " + portfolioData.installationSteps[i].installation);
+            }
+          })
+          .then(() => {
+            return inquirer.prompt(questions.installationQuestion_confirm)
+          })
+          .then(confirmation =>{
+            if(confirmation.confirmStep){
+              console.log("** Installation instruction confirmed!");
+              return portfolioData;
+            }
+            else{
+              console.log("** Installation instruction cleared. Please enter installation instruction.");
+              portfolioData.installationSteps = [];
+              promptInstallation(portfolioData);
+            }
+          })
 };
 
 const promptInstallationSteps = steps => {
@@ -64,27 +63,42 @@ const promptInstallationSteps = steps => {
   console.log("Step " + currentStep + ": ");
 
   return inquirer.prompt(currentStep == 1 ? installQuestion.firstQ : installQuestion.nextQ)
-  .then(step => {
-    steps.push(step);
-    // console.log(step);
-    return step.hasNext ? promptInstallationSteps(steps) : steps;
-  })
+          .then(step => {
+            steps.push(step);
+            return step.hasNext ? promptInstallationSteps(steps) : steps;
+          });
 };
 
-const promptInstallationConfirmation = () => {
-  return inquirer.prompt(questions.installationQuestion_confirm);
+const promptLicense = portfolioData => {
+  return inquirer.prompt(questions.licenseQuestions)
+          .then(license => {
+            portfolioData.license = license;
+          })
+          .then(() => {
+            return inquirer.prompt(questions.licenseQuestion_confirm) 
+          })
+          .then(confirmation => {
+            if(confirmation.confirmLicense){
+              console.log("** License confirmed!");
+              return portfolioData;
+            }
+            else{
+              console.log("** License cleared. Please choose license.");
+              promptLicense(portfolioData);
+            }
+          });
 };
-
 
 // TODO: Create a function to initialize app
 function init() {
   promptProjectDetails()
-  // .then(promptUser)
+  .then(promptUser)
   .then(promptInstallation)
-  // .then(portfolioData => {
-  //   // console.log(portfolioData);
-  //   // return generateMarkdown(portfolioData);
-  // })
+  .then(promptLicense)
+  .then(portfolioData => {
+    console.log(portfolioData);
+    // return generateMarkdown(portfolioData);
+  })
   // .then(markdownData => {
   //   return writeToFile(markdownData);
   // })
