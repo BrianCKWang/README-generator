@@ -8,7 +8,7 @@
 // -contribution guidelines
 // -test instructions
 // -github username
-// email address
+// -email address
 
 let projectQuestions = [
   {
@@ -64,19 +64,6 @@ let projectQuestions = [
         return true;
       } else {
         console.log('Please enter contribution guidelines for the project!');
-        return false;
-      }
-    }
-  },
-  {
-    type: 'input',
-    name: 'test',
-    message: 'Provide test instructions for the project (Required)',
-    validate: instructionInput => {
-      if (instructionInput) {
-        return true;
-      } else {
-        console.log('Please enter test instructions for the project!');
         return false;
       }
     }
@@ -414,6 +401,59 @@ const licenseQuestion_confirm = [
   }
 ];
 
+const testQuestion_first = [
+  {
+    type: 'input',
+    name: 'test',
+    message: 'Provide an instruction of test for the project (Required)',
+    validate: instructionInput => {
+      if (instructionInput) {
+        return true;
+      } else {
+        console.log('Please enter instruction of test for the project!');
+        return false;
+      }
+    }
+  },
+  {
+    type: 'confirm',
+    name: 'hasNext',
+    message: 'Is there a next step?',
+    default: false
+  },
+];
+
+const testQuestion_next = [
+  {
+    type: 'input',
+    name: 'test',
+    message: 'Provide another instruction of test (Required)',
+    validate: instructionInput => {
+      if (instructionInput) {
+        return true;
+      } else {
+        console.log('Please enter an instruction!');
+        return false;
+      }
+    }
+  },
+  {
+    type: 'confirm',
+    name: 'hasNext',
+    message: 'Is there a next step?',
+    default: false
+  },
+];
+
+const testQuestion_confirm = [
+  {
+    type: 'confirm',
+    name: 'confirmStep',
+    message: 'Please confirm the test instruction steps. Okay to proceed?',
+    default: true
+  }
+];
+
 const userQuestions = [
   {
     type: 'input',
@@ -468,5 +508,8 @@ module.exports = {
   installationQuestion_next,
   installationQuestion_confirm,
   licenseQuestions,
-  licenseQuestion_confirm
+  licenseQuestion_confirm,
+  testQuestion_next,
+  testQuestion_confirm,
+  testQuestion_first,
 };

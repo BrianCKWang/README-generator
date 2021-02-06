@@ -8,6 +8,8 @@ const generateMarkdown = require('./utils/generateMarkdown.js');
 // writeToFile(fileName, data);
 
 const promptProjectDetails = () => {
+  console.log("");
+  console.log("=== Project details: ===");
   return inquirer.prompt(questions.projectQuestions)
           .catch(err => {
             console.log(err);
@@ -15,6 +17,8 @@ const promptProjectDetails = () => {
 };
 
 const promptUser = projectData => {
+  console.log("");
+  console.log("=== User details: ===");
   return inquirer.prompt(questions.userQuestions)
           .then(userData => {
             return {
@@ -28,9 +32,12 @@ const promptUser = projectData => {
 };
 
 const promptInstallation = portfolioData => {
+  console.log("");
+  console.log("=== Installation instructions: ===");
   return promptInstallationSteps()
           .then(steps=> {
             portfolioData.installationSteps = steps;
+            console.log("");
             console.log("Installation instructions:");
             for(let i = 0, currentStep = 1; i < portfolioData.installationSteps.length; i++, currentStep++){
               console.log("Step " + currentStep + ": " + portfolioData.installationSteps[i].installation);
@@ -66,6 +73,7 @@ const promptInstallationSteps = steps => {
   }
 
   let currentStep = steps.length + 1;
+  
   console.log("Step " + currentStep + ": ");
 
   return inquirer.prompt(currentStep == 1 ? install.firstQ : install.nextQ)
@@ -75,10 +83,12 @@ const promptInstallationSteps = steps => {
           })
           .catch(err => {
             console.log(err);
-          });;
+          });
 };
 
 const promptLicense = portfolioData => {
+  console.log("");
+  console.log("=== License details: ===");
   return inquirer.prompt(questions.licenseQuestions)
           .then(license => {
             portfolioData.license = license;
@@ -98,7 +108,61 @@ const promptLicense = portfolioData => {
           })
           .catch(err => {
             console.log(err);
-          });;
+          });
+};
+
+const promptTest = portfolioData => {
+  console.log("");
+  console.log("=== Test instructions: ===");
+  return promptTestSteps()
+          .then(steps=> {
+            portfolioData.testSteps = steps;
+            console.log("");
+            console.log("Test instructions:");
+            for(let i = 0, currentStep = 1; i < portfolioData.testSteps.length; i++, currentStep++){
+              console.log("Step " + currentStep + ": " + portfolioData.testSteps[i].test);
+            }
+          })
+          .then(() => {
+            return inquirer.prompt(questions.testQuestion_confirm)
+          })
+          .then(confirmation =>{
+            if(confirmation.confirmStep){
+              console.log("** Test instruction confirmed!");
+              return portfolioData;
+            }
+            else{
+              console.log("** Test instruction cleared. Please enter test instruction.");
+              portfolioData.testSteps = [];
+              promptTest(portfolioData);
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+};
+
+const promptTestSteps = steps => {
+  const test = {
+    firstQ: questions.testQuestion_first,
+    nextQ: questions.testQuestion_next,
+  }
+
+  if(steps == null){
+    steps = [];
+  }
+
+  let currentStep = steps.length + 1;
+  console.log("Step " + currentStep + ": ");
+
+  return inquirer.prompt(currentStep == 1 ? test.firstQ : test.nextQ)
+          .then(step => {
+            steps.push(step);
+            return step.hasNext ? promptTestSteps(steps) : steps;
+          })
+          .catch(err => {
+            console.log(err);
+          });
 };
 
 // TODO: Create a function to initialize app
@@ -107,13 +171,14 @@ function init() {
   .then(promptUser)
   .then(promptInstallation)
   .then(promptLicense)
+  .then(promptTest)
   .then(portfolioData => {
     console.log(portfolioData);
-    // return generateMarkdown(portfolioData);
+    return generateMarkdown(portfolioData);
   })
-  // .then(markdownData => {
-  //   return writeToFile(markdownData);
-  // })
+  .then(markdownData => {
+    return writeToFile(markdownData);
+  })
   .catch(err => {
     console.log(err);
   });
