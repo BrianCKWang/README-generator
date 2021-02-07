@@ -106,7 +106,6 @@ const promptLicense = portfolioData => {
           });
 };
 
-// TODO: Create a function to initialize app
 function init() {
   promptUserDetails()
   .then(promptProjectDetails)
