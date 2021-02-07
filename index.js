@@ -54,7 +54,7 @@ const promptFor = (section, sectionQuestions, sectionName, portfolioData) => {
               console.log("");
               console.log("** " + sectionName + " cleared.");
               section = [];
-              return promptFor(portfolioData, section, sectionQuestions, sectionName);
+              return promptFor(section, sectionQuestions, sectionName, portfolioData);
             }
           })
           .catch(err => {
@@ -164,6 +164,7 @@ function init() {
   )
   .then(promptLicense)
   .then(portfolioData => {
+    console.log("Creating file...");
     return generateMarkdown(portfolioData);
   })
   .then(markdownData => {

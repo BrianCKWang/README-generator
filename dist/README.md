@@ -1,8 +1,8 @@
-# README Generator
+# brian
 ## Description
-To program a README markdown file generator by prompting user for information and then automatically generate a professional README.md file utilizing Node.js and inquirer.
+brian
 
-![main pic](https://github.com/BrianCKWang/README-generator/blob/develop/src/img/main-01.png)
+![main pic](link)
 
 ## Table of Contents
 * [Usage](#usage)
@@ -14,44 +14,48 @@ To program a README markdown file generator by prompting user for information an
 
 ## Usage 
 
-  1. Open console
-  1. Navigate to project root directory
-  1. Run "node index"
-  1. Answer all information prompts
-  1. Once all information provided, README.md will be generated in dist folder
+  1. x
+  1. y
+  1. z
   
   
 
 ## Installation
 
-  1. Download project zip file
-  1. Unzip to preferred location
+  1. a
+  1. b
+  1. c
+  1. d
   
   
 
 ## Test
 
-     Run "node ./utils/test"
+  1. i
+  1. j
+  1. k
   
   
 
 ## Contribution Guidelines
 
-     Provide clear and concise suggestions
+  1. q
+  1. w
+  1. e
   
   
 
 ## Questions
 What is your github username? 
 
-  * https://github.com/brianckwang
+  * https://github.com/brian
 
 Where can I reach out to you for questions? 
 
-  * Email: brian.ck.wang@gmail.com
+  * Email: brian
 
 ## License
 This project is licensed under:
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
 
