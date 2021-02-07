@@ -43,19 +43,19 @@ let projectQuestions = [
     name: 'screenshotLink',
     message: 'Enter the link to the screenshot. Leave input empty to omit. (option)',
   },
-  {
-    type: 'input',
-    name: 'usage',
-    message: 'Provide usage information for the project (Required)',
-    validate: instructionInput => {
-      if (instructionInput) {
-        return true;
-      } else {
-        console.log('Please enter usage information for the project!');
-        return false;
-      }
-    }
-  },
+  // {
+  //   type: 'input',
+  //   name: 'usage',
+  //   message: 'Provide usage information for the project (Required)',
+  //   validate: instructionInput => {
+  //     if (instructionInput) {
+  //       return true;
+  //     } else {
+  //       console.log('Please enter usage information for the project!');
+  //       return false;
+  //     }
+  //   }
+  // },
   {
     type: 'input',
     name: 'contributionGuideline',
@@ -120,6 +120,174 @@ const installationQuestion_confirm = [
     type: 'confirm',
     name: 'confirmStep',
     message: 'Please confirm the installation instruction steps. Okay to proceed?',
+    default: true
+  }
+];
+
+const usageQuestion_first = [
+  {
+    type: 'input',
+    name: 'step',
+    message: 'Provide usage instruction for the project (Required)',
+    validate: instructionInput => {
+      if (instructionInput) {
+        return true;
+      } else {
+        console.log('Please enter usage instruction for the project!');
+        return false;
+      }
+    }
+  },
+  {
+    type: 'confirm',
+    name: 'hasNext',
+    message: 'Is there a next step?',
+    default: false
+  },
+];
+
+const usageQuestion_next = [
+  {
+    type: 'input',
+    name: 'step',
+    message: 'Provide another usage instruction (Required)',
+    validate: instructionInput => {
+      if (instructionInput) {
+        return true;
+      } else {
+        console.log('Please enter an instruction!');
+        return false;
+      }
+    }
+  },
+  {
+    type: 'confirm',
+    name: 'hasNext',
+    message: 'Is there a next step?',
+    default: false
+  },
+];
+
+const usageQuestion_confirm = [
+  {
+    type: 'confirm',
+    name: 'confirmStep',
+    message: 'Please confirm the usage instruction steps. Okay to proceed?',
+    default: true
+  }
+];
+
+const testQuestion_first = [
+  {
+    type: 'input',
+    name: 'step',
+    message: 'Provide test instruction for the project (Required)',
+    validate: instructionInput => {
+      if (instructionInput) {
+        return true;
+      } else {
+        console.log('Please enter test instruction for the project!');
+        return false;
+      }
+    }
+  },
+  {
+    type: 'confirm',
+    name: 'hasNext',
+    message: 'Is there a next step?',
+    default: false
+  },
+];
+
+const testQuestion_next = [
+  {
+    type: 'input',
+    name: 'step',
+    message: 'Provide another test instruction (Required)',
+    validate: instructionInput => {
+      if (instructionInput) {
+        return true;
+      } else {
+        console.log('Please enter an instruction!');
+        return false;
+      }
+    }
+  },
+  {
+    type: 'confirm',
+    name: 'hasNext',
+    message: 'Is there a next step?',
+    default: false
+  },
+];
+
+const testQuestion_confirm = [
+  {
+    type: 'confirm',
+    name: 'confirmStep',
+    message: 'Please confirm the test instruction steps. Okay to proceed?',
+    default: true
+  }
+];
+
+const contributionQuestion_first = [
+  {
+    type: 'input',
+    name: 'step',
+    message: 'Provide contribution guideline for the project (Required)',
+    validate: instructionInput => {
+      if (instructionInput) {
+        return true;
+      } else {
+        console.log('Please enter contribution guideline for the project!');
+        return false;
+      }
+    }
+  },
+  {
+    type: 'confirm',
+    name: 'hasNext',
+    message: 'Is there a next guideline?',
+    default: false
+  },
+];
+
+const contributionQuestion_next = [
+  {
+    type: 'input',
+    name: 'step',
+    message: 'Provide another contribution guideline (Required)',
+    validate: instructionInput => {
+      if (instructionInput) {
+        return true;
+      } else {
+        console.log('Please enter an guideline!');
+        return false;
+      }
+    }
+  },
+  {
+    type: 'confirm',
+    name: 'hasNext',
+    message: 'Is there a next guideline?',
+    default: false
+  },
+];
+
+const contributionQuestion_confirm = [
+  {
+    type: 'confirm',
+    name: 'confirmStep',
+    message: 'Please confirm the contribution guideline. Okay to proceed?',
+    default: true
+  }
+];
+
+const licenseQuestion_confirm = [
+  {
+    type: 'confirm',
+    name: 'confirmLicense',
+    message: 'Please confirm the license. Okay to proceed?',
     default: true
   }
 ];
@@ -409,67 +577,6 @@ const licenseQuestions = [
 
 ];
 
-const licenseQuestion_confirm = [
-  {
-    type: 'confirm',
-    name: 'confirmLicense',
-    message: 'Please confirm the license. Okay to proceed?',
-    default: true
-  }
-];
-
-const testQuestion_first = [
-  {
-    type: 'input',
-    name: 'step',
-    message: 'Provide test instruction for the project (Required)',
-    validate: instructionInput => {
-      if (instructionInput) {
-        return true;
-      } else {
-        console.log('Please enter test instruction for the project!');
-        return false;
-      }
-    }
-  },
-  {
-    type: 'confirm',
-    name: 'hasNext',
-    message: 'Is there a next step?',
-    default: false
-  },
-];
-
-const testQuestion_next = [
-  {
-    type: 'input',
-    name: 'step',
-    message: 'Provide another test instruction (Required)',
-    validate: instructionInput => {
-      if (instructionInput) {
-        return true;
-      } else {
-        console.log('Please enter an instruction!');
-        return false;
-      }
-    }
-  },
-  {
-    type: 'confirm',
-    name: 'hasNext',
-    message: 'Is there a next step?',
-    default: false
-  },
-];
-
-const testQuestion_confirm = [
-  {
-    type: 'confirm',
-    name: 'confirmStep',
-    message: 'Please confirm the test instruction steps. Okay to proceed?',
-    default: true
-  }
-];
 
 const userQuestions = [
   {
@@ -516,12 +623,23 @@ const userQuestions = [
 module.exports = {
   projectQuestions, 
   userQuestions, 
+
   installationQuestion_first,
   installationQuestion_next,
   installationQuestion_confirm,
-  licenseQuestions,
-  licenseQuestion_confirm,
+
+  usageQuestion_first,
+  usageQuestion_next,
+  usageQuestion_confirm,
+
+  testQuestion_first,
   testQuestion_next,
   testQuestion_confirm,
-  testQuestion_first,
+
+  contributionQuestion_first,
+  contributionQuestion_next,
+  contributionQuestion_confirm,
+
+  licenseQuestions,
+  licenseQuestion_confirm,
 };

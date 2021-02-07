@@ -31,30 +31,34 @@ const promptUser = projectData => {
           });
 };
 
-const promptInstallation = portfolioData => {
+const promptFor = (portfolioData, section, sectionQuestions, sectionName) => {
   console.log("");
-  console.log("=== Installation instructions: ===");
-  return promptInstallationSteps()
+  console.log("=== " + sectionName + ": ===");
+  return promptSteps([], sectionQuestions)
           .then(steps=> {
-            portfolioData.installationSteps = steps;
+            portfolioData[section] = steps;
+
             console.log("");
-            console.log("Installation instructions:");
-            for(let i = 0, currentStep = 1; i < portfolioData.installationSteps.length; i++, currentStep++){
-              console.log("Step " + currentStep + ": " + portfolioData.installationSteps[i].step);
+            console.log(sectionName + ":");
+            for(let i = 0, currentStep = 1; i < portfolioData[section].length; i++, currentStep++){
+              console.log("Step " + currentStep + ": " + portfolioData[section][i].step);
             }
+            console.log("");
           })
           .then(() => {
-            return inquirer.prompt(questions.installationQuestion_confirm)
+            return inquirer.prompt(sectionQuestions.confirm)
           })
           .then(confirmation =>{
             if(confirmation.confirmStep){
-              console.log("** Installation instruction confirmed!");
+              console.log("");
+              console.log("** " + sectionName + " confirmed!");
               return portfolioData;
             }
             else{
-              console.log("** Installation instruction cleared. Please enter installation instruction.");
-              portfolioData.installationSteps = [];
-              return promptInstallation(portfolioData);
+              console.log("");
+              console.log("** " + sectionName + " cleared.");
+              section = [];
+              return promptFor(portfolioData, section, sectionQuestions, sectionName);
             }
           })
           .catch(err => {
@@ -62,67 +66,7 @@ const promptInstallation = portfolioData => {
           });
 };
 
-const promptInstallationSteps = steps => {
-  const install = {
-    firstQ: questions.installationQuestion_first,
-    nextQ: questions.installationQuestion_next,
-  }
-
-  if(steps == null){
-    steps = [];
-  }
-
-  let currentStep = steps.length + 1;
-  
-  console.log("Step " + currentStep + ": ");
-
-  return inquirer.prompt(currentStep == 1 ? install.firstQ : install.nextQ)
-          .then(step => {
-            steps.push(step);
-            return step.hasNext ? promptInstallationSteps(steps) : steps;
-          })
-          .catch(err => {
-            console.log(err);
-          });
-};
-
-const promptTest = portfolioData => {
-  console.log("");
-  console.log("=== Test instructions: ===");
-  return promptTestSteps()
-          .then(steps=> {
-            portfolioData.testSteps = steps;
-            console.log("");
-            console.log("Test instructions:");
-            for(let i = 0, currentStep = 1; i < portfolioData.testSteps.length; i++, currentStep++){
-              console.log("Step " + currentStep + ": " + portfolioData.testSteps[i].step);
-            }
-          })
-          .then(() => {
-            return inquirer.prompt(questions.testQuestion_confirm)
-          })
-          .then(confirmation =>{
-            if(confirmation.confirmStep){
-              console.log("** Test instruction confirmed!");
-              return portfolioData;
-            }
-            else{
-              console.log("** Test instruction cleared. Please enter test instruction.");
-              portfolioData.testSteps = [];
-              return promptTest(portfolioData);
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-};
-
-const promptTestSteps = steps => {
-  const test = {
-    firstQ: questions.testQuestion_first,
-    nextQ: questions.testQuestion_next,
-  }
-
+const promptSteps = (steps, sectionQuestions) => {
   if(steps == null){
     steps = [];
   }
@@ -130,10 +74,10 @@ const promptTestSteps = steps => {
   let currentStep = steps.length + 1;
   console.log("Step " + currentStep + ": ");
 
-  return inquirer.prompt(currentStep == 1 ? test.firstQ : test.nextQ)
+  return inquirer.prompt(currentStep == 1 ? sectionQuestions.firstQ : sectionQuestions.nextQ)
           .then(step => {
             steps.push(step);
-            return step.hasNext ? promptTestSteps(steps) : steps;
+            return step.hasNext ? promptSteps(steps, sectionQuestions) : steps;
           })
           .catch(err => {
             console.log(err);
@@ -152,6 +96,7 @@ const promptLicense = portfolioData => {
           })
           .then(confirmation => {
             if(confirmation.confirmLicense){
+              console.log("");
               console.log("** License confirmed!");
               return portfolioData;
             }
@@ -169,15 +114,61 @@ const promptLicense = portfolioData => {
 function init() {
   promptProjectDetails()
   .then(promptUser)
-  .then(promptInstallation)
-  .then(promptTest)
+  .then(portfolioData => {
+    return promptFor(portfolioData, 
+              'installation',
+              {
+                firstQ: questions.installationQuestion_first,
+                nextQ: questions.installationQuestion_next,
+                confirm: questions.installationQuestion_confirm
+              },
+              "Installation Instruction"
+      )
+    }
+  )
+  .then(portfolioData => {
+    return promptFor(portfolioData, 
+              'usage',
+              {
+                firstQ: questions.usageQuestion_first,
+                nextQ: questions.usageQuestion_next,
+                confirm: questions.usageQuestion_confirm
+              },
+              "Usage Instruction"
+      )
+    }
+  )
+  .then(portfolioData => {
+    return promptFor(portfolioData, 
+              'test', 
+              {
+                firstQ: questions.testQuestion_first,
+                nextQ: questions.testQuestion_next,
+                confirm: questions.testQuestion_confirm
+              },
+              "Test Instruction"
+      )
+    }
+  )
+  .then(portfolioData => {
+    return promptFor(portfolioData, 
+              'contributionGuideline', 
+              {
+                firstQ: questions.contributionQuestion_first,
+                nextQ: questions.contributionQuestion_next,
+                confirm: questions.contributionQuestion_confirm
+              },
+              "Contribution Guideline"
+      )
+    }
+  )
   .then(promptLicense)
   .then(portfolioData => {
     console.log(portfolioData);
     return generateMarkdown(portfolioData);
   })
   .then(markdownData => {
-    console.log(markdownData);
+    // console.log(markdownData);
     return writeToFile('README.md', markdownData);
   })
   .then(writeFileResponse => {
