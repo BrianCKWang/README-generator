@@ -19,29 +19,38 @@ function displaySteps(instructions) {
   }
 }
 
+function displayScreenshot(link){
+  if(link != null && link != ""){
+    return `![main pic](${link})`
+  }
+  else{
+    return ``;
+  }
+}
+
 // TODO: Create a function to generate markdown for README
 function generateMarkdown(data) {
   // console.log(data);
   return `# ${data.project.title}
 ## Description
 ${data.project.description}
+${displayScreenshot(data.project.screenshotLink)}
 
 ## Table of Contents
-1. [Description](#description)
-1. [Usage](#usage)
-1. [Installation](#installation-instructions)
-1. [Test](#test-instructions)
-1. [Contribution Guidelines](#contribution-guidelines)
-1. [Questions](#questions)
-1. [License](#license)
+* [Usage](#usage)
+* [Installation](#installation)
+* [Test](#test)
+* [Contribution Guidelines](#contribution-guidelines)
+* [Questions](#questions)
+* [License](#license)
 
 ## Usage 
 ${displaySteps(data.usage)}
 
-## Installation Instructions
+## Installation
 ${displaySteps(data.installation)}
 
-## Test Instructions
+## Test
 ${displaySteps(data.test)}
 
 ## Contribution Guidelines

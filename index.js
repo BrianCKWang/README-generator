@@ -1,28 +1,24 @@
-// TODO: Include packages needed for this application
 const inquirer = require('inquirer');
 const questions = require('./utils/inquirer-questions.js');
 const writeToFile = require('./utils/file-handlers.js');
 const generateMarkdown = require('./utils/generateMarkdown.js');
 
-// TODO: Create a function to write README file
-// writeToFile(fileName, data);
-
-const promptProjectDetails = () => {
+const promptUserDetails = () => {
   console.log("");
-  console.log("=== Project details: ===");
-  return inquirer.prompt(questions.projectQuestions)
+  console.log("=== User Details: ===");
+  return inquirer.prompt(questions.userQuestions)
           .catch(err => {
             console.log(err);
           });
 };
 
-const promptUser = projectData => {
+const promptProjectDetails = portfolioData => {
   console.log("");
-  console.log("=== User details: ===");
-  return inquirer.prompt(questions.userQuestions)
-          .then(userData => {
+  console.log("=== Project Details: ===");
+  return inquirer.prompt(questions.projectQuestions)
+          .then(projectData => {
             return {
-              ...userData,
+              ...portfolioData,
               project: projectData
             };
           })
@@ -31,7 +27,7 @@ const promptUser = projectData => {
           });
 };
 
-const promptFor = (portfolioData, section, sectionQuestions, sectionName) => {
+const promptFor = (section, sectionQuestions, sectionName, portfolioData) => {
   console.log("");
   console.log("=== " + sectionName + ": ===");
   return promptSteps([], sectionQuestions)
@@ -112,64 +108,66 @@ const promptLicense = portfolioData => {
 
 // TODO: Create a function to initialize app
 function init() {
-  promptProjectDetails()
-  .then(promptUser)
+  promptUserDetails()
+  .then(promptProjectDetails)
   .then(portfolioData => {
-    return promptFor(portfolioData, 
+    return promptFor(
               'installation',
               {
                 firstQ: questions.installationQuestion_first,
                 nextQ: questions.installationQuestion_next,
                 confirm: questions.installationQuestion_confirm
               },
-              "Installation Instruction"
+              "Installation Instruction",
+              portfolioData
       )
     }
   )
   .then(portfolioData => {
-    return promptFor(portfolioData, 
+    return promptFor( 
               'usage',
               {
                 firstQ: questions.usageQuestion_first,
                 nextQ: questions.usageQuestion_next,
                 confirm: questions.usageQuestion_confirm
               },
-              "Usage Instruction"
+              "Usage Instruction",
+              portfolioData
       )
     }
   )
   .then(portfolioData => {
-    return promptFor(portfolioData, 
+    return promptFor(
               'test', 
               {
                 firstQ: questions.testQuestion_first,
                 nextQ: questions.testQuestion_next,
                 confirm: questions.testQuestion_confirm
               },
-              "Test Instruction"
+              "Test Instruction",
+              portfolioData
       )
     }
   )
   .then(portfolioData => {
-    return promptFor(portfolioData, 
+    return promptFor(
               'contributionGuideline', 
               {
                 firstQ: questions.contributionQuestion_first,
                 nextQ: questions.contributionQuestion_next,
                 confirm: questions.contributionQuestion_confirm
               },
-              "Contribution Guideline"
+              "Contribution Guideline",
+              portfolioData
       )
     }
   )
   .then(promptLicense)
   .then(portfolioData => {
-    console.log(portfolioData);
     return generateMarkdown(portfolioData);
   })
   .then(markdownData => {
-    // console.log(markdownData);
-    return writeToFile('README.md', markdownData);
+    return writeToFile('./dist/README.md', markdownData);
   })
   .then(writeFileResponse => {
     console.log(writeFileResponse.message);

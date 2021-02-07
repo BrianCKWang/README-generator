@@ -1,10 +1,8 @@
 const fs = require('fs');
 
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {
+function writeToFile(fileNamePath, data) {
   return new Promise((resolve, reject) => {
-    const path = './dist/' + fileName;
-    fs.writeFile(path, data, err => {
+    fs.writeFile(fileNamePath, data, err => {
       // if there's an error, reject the Promise and send the error to the Promise's `.catch()` method
       if (err) {
         reject(err);

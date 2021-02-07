@@ -43,32 +43,6 @@ let projectQuestions = [
     name: 'screenshotLink',
     message: 'Enter the link to the screenshot. Leave input empty to omit. (option)',
   },
-  // {
-  //   type: 'input',
-  //   name: 'usage',
-  //   message: 'Provide usage information for the project (Required)',
-  //   validate: instructionInput => {
-  //     if (instructionInput) {
-  //       return true;
-  //     } else {
-  //       console.log('Please enter usage information for the project!');
-  //       return false;
-  //     }
-  //   }
-  // },
-  {
-    type: 'input',
-    name: 'contributionGuideline',
-    message: 'Provide contribution guidelines for the project (Required)',
-    validate: instructionInput => {
-      if (instructionInput) {
-        return true;
-      } else {
-        console.log('Please enter contribution guidelines for the project!');
-        return false;
-      }
-    }
-  }
 ];
 
 const installationQuestion_first = [

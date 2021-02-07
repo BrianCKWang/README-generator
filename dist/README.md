@@ -1,48 +1,56 @@
-# p
+# README Generator
 ## Description
-p
+To program a README markdown file generator by prompting user for information and then automatically generate a professional README.md file utilizing Node.js and inquirer.
+![main pic](https://github.com/BrianCKWang/weather-dashboard/blob/main/assets/img/main-01.png)
 
 ## Table of Contents
-1. [Description](#description)
-1. [Usage](#usage)
-1. [Installation](#installation-instructions)
-1. [Test](#test-instructions)
-1. [Contribution Guidelines](#contribution-guidelines)
-1. [Questions](#questions)
-1. [License](#license)
+* [Usage](#usage)
+* [Installation](#installation)
+* [Test](#test)
+* [Contribution Guidelines](#contribution-guidelines)
+* [Questions](#questions)
+* [License](#license)
 
 ## Usage 
-undefined
 
-## Installation Instructions
-
-     a
+  1. Open console
+  1. Navigate to project root directory
+  1. Run "node index"
+  1. Answer all information prompts
+  1. Once all information provided, README.md will be generated in dist folder
   
   
 
-## Test Instructions
+## Installation
 
-     i
+  1. Download project zip file
+  1. Unzip to preferred location
+  
+  
+
+## Test
+
+     Run "node test"
   
   
 
 ## Contribution Guidelines
 
-     t
+     Provide clear and concise suggestions
   
   
 
 ## Questions
 What is your github username? 
 
-  * https://github.com/p
+  * https://github.com/brianckwang
 
 Where can I reach out to you for questions? 
 
-  * Email: p
+  * Email: brian.ck.wang@gmail.com
 
 ## License
 This project is licensed under:
 
-[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
