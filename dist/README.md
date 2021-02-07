@@ -54,5 +54,3 @@ Where can I reach out to you for questions?
 This project is licensed under:
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-Live Demo: ![Video](https://github.com/BrianCKWang/README-generator/blob/main/src/video/demo.mp4)
