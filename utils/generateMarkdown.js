@@ -43,11 +43,11 @@ ${displayScreenshot(data.project.screenshotLink)}
 * [Questions](#questions)
 * [License](#license)
 
-## Usage 
-${displaySteps(data.usage)}
-
 ## Installation
 ${displaySteps(data.installation)}
+
+## Usage 
+${displaySteps(data.usage)}
 
 ## Test
 ${displaySteps(data.test)}
