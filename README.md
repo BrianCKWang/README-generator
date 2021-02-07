@@ -2,7 +2,7 @@
 ## Description
 To program a README markdown file generator by prompting user for information and then automatically generate a professional README.md file utilizing Node.js and inquirer.
 
-![main pic](https://github.com/BrianCKWang/weather-dashboard/blob/main/assets/img/main-01.png)
+![main pic](https://github.com/BrianCKWang/README-generator/blob/develop/src/img/main-01.png)
 
 ## Table of Contents
 * [Usage](#usage)
