@@ -31,7 +31,7 @@ To program a README markdown file generator by prompting user for information an
 
 ## Test
 
-     Run "node test"
+     Run "node ./utils/test"
   
   
 
