@@ -1,17 +1,4 @@
-// TODO: Create an array of questions for user input
-// -project title
-// -description
-// table of contents
-// -usage information
-// -installation instruction
-
-// -license
-// -contribution guidelines
-// -test instructions
-// -github username
-// -email address
-
-let projectQuestions = [
+const projectQuestions = [
   {
     type: 'input',
     name: 'title',
