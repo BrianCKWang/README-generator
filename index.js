@@ -40,7 +40,7 @@ const promptInstallation = portfolioData => {
             console.log("");
             console.log("Installation instructions:");
             for(let i = 0, currentStep = 1; i < portfolioData.installationSteps.length; i++, currentStep++){
-              console.log("Step " + currentStep + ": " + portfolioData.installationSteps[i].installation);
+              console.log("Step " + currentStep + ": " + portfolioData.installationSteps[i].step);
             }
           })
           .then(() => {
@@ -54,7 +54,7 @@ const promptInstallation = portfolioData => {
             else{
               console.log("** Installation instruction cleared. Please enter installation instruction.");
               portfolioData.installationSteps = [];
-              promptInstallation(portfolioData);
+              return promptInstallation(portfolioData);
             }
           })
           .catch(err => {
@@ -86,31 +86,6 @@ const promptInstallationSteps = steps => {
           });
 };
 
-const promptLicense = portfolioData => {
-  console.log("");
-  console.log("=== License details: ===");
-  return inquirer.prompt(questions.licenseQuestions)
-          .then(license => {
-            portfolioData.license = license;
-          })
-          .then(() => {
-            return inquirer.prompt(questions.licenseQuestion_confirm) 
-          })
-          .then(confirmation => {
-            if(confirmation.confirmLicense){
-              console.log("** License confirmed!");
-              return portfolioData;
-            }
-            else{
-              console.log("** License cleared. Please choose license.");
-              promptLicense(portfolioData);
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-};
-
 const promptTest = portfolioData => {
   console.log("");
   console.log("=== Test instructions: ===");
@@ -120,7 +95,7 @@ const promptTest = portfolioData => {
             console.log("");
             console.log("Test instructions:");
             for(let i = 0, currentStep = 1; i < portfolioData.testSteps.length; i++, currentStep++){
-              console.log("Step " + currentStep + ": " + portfolioData.testSteps[i].test);
+              console.log("Step " + currentStep + ": " + portfolioData.testSteps[i].step);
             }
           })
           .then(() => {
@@ -134,7 +109,7 @@ const promptTest = portfolioData => {
             else{
               console.log("** Test instruction cleared. Please enter test instruction.");
               portfolioData.testSteps = [];
-              promptTest(portfolioData);
+              return promptTest(portfolioData);
             }
           })
           .catch(err => {
@@ -165,19 +140,48 @@ const promptTestSteps = steps => {
           });
 };
 
+const promptLicense = portfolioData => {
+  console.log("");
+  console.log("=== License details: ===");
+  return inquirer.prompt(questions.licenseQuestions)
+          .then(license => {
+            portfolioData.license = license;
+          })
+          .then(() => {
+            return inquirer.prompt(questions.licenseQuestion_confirm) 
+          })
+          .then(confirmation => {
+            if(confirmation.confirmLicense){
+              console.log("** License confirmed!");
+              return portfolioData;
+            }
+            else{
+              console.log("** License cleared. Please choose license.");
+              return promptLicense(portfolioData);
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+};
+
 // TODO: Create a function to initialize app
 function init() {
   promptProjectDetails()
   .then(promptUser)
   .then(promptInstallation)
-  .then(promptLicense)
   .then(promptTest)
+  .then(promptLicense)
   .then(portfolioData => {
     console.log(portfolioData);
     return generateMarkdown(portfolioData);
   })
   .then(markdownData => {
-    return writeToFile(markdownData);
+    console.log(markdownData);
+    return writeToFile('README.md', markdownData);
+  })
+  .then(writeFileResponse => {
+    console.log(writeFileResponse.message);
   })
   .catch(err => {
     console.log(err);

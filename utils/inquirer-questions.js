@@ -2,8 +2,9 @@
 // -project title
 // -description
 // table of contents
-// -installation instruction
 // -usage information
+// -installation instruction
+
 // -license
 // -contribution guidelines
 // -test instructions
@@ -73,8 +74,8 @@ let projectQuestions = [
 const installationQuestion_first = [
   {
     type: 'input',
-    name: 'installation',
-    message: 'Provide an instruction of installation for the project (Required)',
+    name: 'step',
+    message: 'Provide installation instruction for the project (Required)',
     validate: instructionInput => {
       if (instructionInput) {
         return true;
@@ -95,8 +96,8 @@ const installationQuestion_first = [
 const installationQuestion_next = [
   {
     type: 'input',
-    name: 'installation',
-    message: 'Provide another instruction of installation (Required)',
+    name: 'step',
+    message: 'Provide next instruction of installation (Required)',
     validate: instructionInput => {
       if (instructionInput) {
         return true;
@@ -146,7 +147,7 @@ const licenseQuestions = [
               'Zlib'
             ],
     default: 'Apache',
-    
+    loop: false
   },
   {
     type: 'rawlist',
@@ -154,6 +155,7 @@ const licenseQuestions = [
     message: 'Choose a license.',
     choices: ['Apache 2.0 License'],
     default: 'Apache 2.0 License',
+    loop: false,
     when: ({ licenseCategory}) => {
       if (licenseCategory == 'Apache') {
         return true;
@@ -168,6 +170,7 @@ const licenseQuestions = [
     message: 'Choose a license.',
     choices: ['Boost Software License 1.0'],
     default: 'Boost Software License 1.0',
+    loop: false,
     when: ({ licenseCategory}) => {
       if (licenseCategory == 'Boost') {
         return true;
@@ -182,6 +185,7 @@ const licenseQuestions = [
     message: 'Choose a license.',
     choices: ['BSD 3-Clause License', 'BSD 2-Clause License'],
     default: 'BSD 3-Clause License',
+    loop: false,
     when: ({ licenseCategory}) => {
       if (licenseCategory == 'BSD') {
         return true;
@@ -203,6 +207,7 @@ const licenseQuestions = [
               'Attribution-NonCommercial-NoDerivatives 4.0 International'
             ],
     default: 'CC0',
+    loop: false,
     when: ({ licenseCategory}) => {
       if (licenseCategory == 'Creative Commons') {
         return true;
@@ -217,6 +222,7 @@ const licenseQuestions = [
     message: 'Choose a license.',
     choices: ['Eclipse Public License 1.0'],
     default: 'Eclipse Public License 1.0',
+    loop: false,
     when: ({ licenseCategory}) => {
       if (licenseCategory == 'Eclipse') {
         return true;
@@ -236,6 +242,7 @@ const licenseQuestions = [
               'GNU FDL v1.3'
             ],
     default: 'GNU GPL v3',
+    loop: false,
     when: ({ licenseCategory}) => {
       if (licenseCategory == 'GNU') {
         return true;
@@ -250,6 +257,7 @@ const licenseQuestions = [
     message: 'Choose a license.',
     choices: ['IBM Public License Version 1.0'],
     default: 'IBM Public License Version 1.0',
+    loop: false,
     when: ({ licenseCategory}) => {
       if (licenseCategory == 'IBM') {
         return true;
@@ -264,6 +272,7 @@ const licenseQuestions = [
     message: 'Choose a license.',
     choices: ['ISC License (ISC)'],
     default: 'ISC License (ISC)',
+    loop: false,
     when: ({ licenseCategory}) => {
       if (licenseCategory == 'ISC') {
         return true;
@@ -278,6 +287,7 @@ const licenseQuestions = [
     message: 'Choose a license.',
     choices: ['The MIT License'],
     default: 'The MIT License',
+    loop: false,
     when: ({ licenseCategory}) => {
       if (licenseCategory == 'MIT') {
         return true;
@@ -292,6 +302,7 @@ const licenseQuestions = [
     message: 'Choose a license.',
     choices: ['Mozilla Public License 2.0'],
     default: 'Mozilla Public License 2.0',
+    loop: false,
     when: ({ licenseCategory}) => {
       if (licenseCategory == 'Mozilla') {
         return true;
@@ -309,6 +320,7 @@ const licenseQuestions = [
               'Public Domain Dedication and License (PDDL)'
             ],
     default: 'Attribution License (BY)',
+    loop: false,
     when: ({ licenseCategory}) => {
       if (licenseCategory == 'Open Data Commons') {
         return true;
@@ -325,6 +337,7 @@ const licenseQuestions = [
               'The Artistic License 2.0'
             ],
     default: 'The Perl License',
+    loop: false,
     when: ({ licenseCategory}) => {
       if (licenseCategory == 'Perl') {
         return true;
@@ -339,6 +352,7 @@ const licenseQuestions = [
     message: 'Choose a license.',
     choices: ['SIL Open Font License 1.1'],
     default: 'SIL Open Font License 1.1',
+    loop: false,
     when: ({ licenseCategory}) => {
       if (licenseCategory == 'SIL') {
         return true;
@@ -353,6 +367,7 @@ const licenseQuestions = [
     message: 'Choose a license.',
     choices: ['The Unlicense'],
     default: 'The Unlicense',
+    loop: false,
     when: ({ licenseCategory}) => {
       if (licenseCategory == 'Unlicense') {
         return true;
@@ -367,6 +382,7 @@ const licenseQuestions = [
     message: 'Choose a license.',
     choices: ['The Do What the Fuck You Want to Public License'],
     default: 'The Do What the Fuck You Want to Public License',
+    loop: false,
     when: ({ licenseCategory}) => {
       if (licenseCategory == 'WTFPL') {
         return true;
@@ -381,6 +397,7 @@ const licenseQuestions = [
     message: 'Choose a license.',
     choices: ['The zlib/libpng License'],
     default: 'The zlib/libpng License',
+    loop: false,
     when: ({ licenseCategory}) => {
       if (licenseCategory == 'Zlib') {
         return true;
@@ -404,13 +421,13 @@ const licenseQuestion_confirm = [
 const testQuestion_first = [
   {
     type: 'input',
-    name: 'test',
-    message: 'Provide an instruction of test for the project (Required)',
+    name: 'step',
+    message: 'Provide test instruction for the project (Required)',
     validate: instructionInput => {
       if (instructionInput) {
         return true;
       } else {
-        console.log('Please enter instruction of test for the project!');
+        console.log('Please enter test instruction for the project!');
         return false;
       }
     }
@@ -426,8 +443,8 @@ const testQuestion_first = [
 const testQuestion_next = [
   {
     type: 'input',
-    name: 'test',
-    message: 'Provide another instruction of test (Required)',
+    name: 'step',
+    message: 'Provide another test instruction (Required)',
     validate: instructionInput => {
       if (instructionInput) {
         return true;
@@ -482,19 +499,14 @@ const userQuestions = [
     }
   },
   {
-    type: 'confirm',
-    name: 'confirmAbout',
-    message: 'Would you like to provide email for additional contact information?',
-    default: true
-  },
-  {
     type: 'input',
-    name: 'about',
+    name: 'email',
     message: 'Please enter email',
-    when: ({ confirmAbout }) => {
-      if (confirmAbout) {
+    validate: emailInput => {
+      if (emailInput) {
         return true;
       } else {
+        console.log('Please enter your email!');
         return false;
       }
     }
