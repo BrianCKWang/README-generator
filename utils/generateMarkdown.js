@@ -34,6 +34,7 @@ function generateMarkdown(data) {
   return `# ${data.project.title}
 ## Description
 ${data.project.description}
+
 ${displayScreenshot(data.project.screenshotLink)}
 
 ## Table of Contents
