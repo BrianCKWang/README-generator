@@ -12,6 +12,14 @@ To program a README markdown file generator by prompting user for information an
 * [Questions](#questions)
 * [License](#license)
 
+
+  
+## Installation
+
+  1. Download project zip file
+  1. Unzip to preferred location
+  
+  
 ## Usage 
 
   1. Open console
@@ -19,15 +27,7 @@ To program a README markdown file generator by prompting user for information an
   1. Run "node index"
   1. Answer all information prompts
   1. Once all information provided, README.md will be generated in dist folder
-  
-  
 
-## Installation
-
-  1. Download project zip file
-  1. Unzip to preferred location
-  
-  
 
 ## Test
 
