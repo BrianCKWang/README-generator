@@ -138,7 +138,7 @@ ${displaySteps(data.installationSteps)}
 ${displaySteps(data.testSteps)}
 
 ## Contribution Guidelines
-${displaySteps(data.project.contributionGuideline)}
+${data.project.contributionGuideline}
 
 ## Questions
 What is your github username? 
